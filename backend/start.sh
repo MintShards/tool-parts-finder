@@ -1,2 +1,2 @@
 #!/bin/bash
-uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}
+python -c "import os; os.system(f'uvicorn app.main:app --host 0.0.0.0 --port {os.getenv(\"PORT\", \"8000\")}')"
