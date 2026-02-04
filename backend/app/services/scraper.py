@@ -9,6 +9,7 @@ class VendorScraper:
     # Vendor URL templates for instant search (Canadian websites - Surrey BC focus)
     VENDOR_TEMPLATES = {
         # Search Engines
+        "google": "https://www.google.com/search?q={query}&gl=ca&hl=en",
         "google_shopping": "https://www.google.com/search?q={query}&tbm=shop&gl=ca&hl=en",
 
         # National Marketplaces
@@ -34,6 +35,10 @@ class VendorScraper:
     # Vendor display names and logos
     VENDOR_INFO = {
         # Search Engines
+        "google": {
+            "name": "Google Search (Canada)",
+            "logo": "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg"
+        },
         "google_shopping": {
             "name": "Google Shopping (Canada)",
             "logo": "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg"

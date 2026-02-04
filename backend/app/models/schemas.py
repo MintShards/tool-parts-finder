@@ -57,6 +57,7 @@ class SearchRequest(BaseModel):
     query: str
     vendors: List[str] = [
         # Search Engines
+        "google",
         "google_shopping",
         # National Marketplaces
         "ebay",
