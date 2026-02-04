@@ -12,7 +12,7 @@ class VendorScraper:
         "google": "https://www.google.com/search?q={query}&gl=ca&hl=en",
         "google_shopping": "https://www.google.com/search?q={query}&tbm=shop&gl=ca&hl=en",
         "bing_shopping": "https://www.bing.com/shop?q={query}&cc=CA",
-        "duckduckgo_shopping": "https://duckduckgo.com/?q={query}+buy&ia=web",
+        "duckduckgo": "https://duckduckgo.com/?q={query}",
         "youtube": "https://www.youtube.com/results?search_query={query}+repair",
 
         # National Marketplaces
@@ -50,8 +50,8 @@ class VendorScraper:
             "name": "Bing Shopping (Canada)",
             "logo": "https://upload.wikimedia.org/wikipedia/commons/9/9c/Bing_Fluent_Logo.svg"
         },
-        "duckduckgo_shopping": {
-            "name": "DuckDuckGo Shopping",
+        "duckduckgo": {
+            "name": "DuckDuckGo Search",
             "logo": "https://upload.wikimedia.org/wikipedia/en/9/90/The_DuckDuckGo_Duck.png"
         },
         "youtube": {
