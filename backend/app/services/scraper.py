@@ -12,7 +12,7 @@ class VendorScraper:
         "google": "https://www.google.com/search?q={query}&gl=ca&hl=en",
         "google_shopping": "https://www.google.com/search?q={query}&tbm=shop&gl=ca&hl=en",
         "bing_shopping": "https://www.bing.com/shop?q={query}&cc=CA",
-        "duckduckgo_shopping": "https://duckduckgo.com/?q={query}&ia=shopping",
+        "duckduckgo_shopping": "https://duckduckgo.com/?q={query}+buy&ia=web",
         "youtube": "https://www.youtube.com/results?search_query={query}+repair",
 
         # National Marketplaces
