@@ -60,7 +60,7 @@ class SearchRequest(BaseModel):
         "google",
         "google_shopping",
         "bing_shopping",
-        "duckduckgo",
+        "duckduckgo_shopping",
         # National Marketplaces
         "ebay",
         "amazon",
