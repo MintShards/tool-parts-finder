@@ -13,7 +13,7 @@ class VendorScraper:
         "google_shopping": "https://www.google.com/search?q={query}&tbm=shop&gl=ca&hl=en",
         "bing_shopping": "https://www.bing.com/shop?q={query}&cc=CA",
         "duckduckgo_shopping": "https://duckduckgo.com/?q={query}&ia=shopping",
-        "youtube": "https://www.youtube.com/results?search_query={query}",
+        "youtube": "https://www.youtube.com/results?search_query={query}+repair",
 
         # National Marketplaces
         "ebay": "https://www.ebay.ca/sch/i.html?_nkw={query}",
