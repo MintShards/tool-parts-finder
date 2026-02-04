@@ -57,7 +57,6 @@ class SearchRequest(BaseModel):
     query: str
     vendors: List[str] = [
         # Search Engines
-        "youtube",  # Repair videos first - most valuable for learning
         "google",
         "google_shopping",
         "bing_shopping",
@@ -73,6 +72,8 @@ class SearchRequest(BaseModel):
         # Pneumatic Specialists
         "contractor_cave",
         "canada_tool_parts",
+        # Repair Videos
+        "youtube",  # Last - for learning how to install/repair
     ]
 
 
