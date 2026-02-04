@@ -11,6 +11,9 @@ class VendorScraper:
         # Search Engines
         "google": "https://www.google.com/search?q={query}&gl=ca&hl=en",
         "google_shopping": "https://www.google.com/search?q={query}&tbm=shop&gl=ca&hl=en",
+        "bing_shopping": "https://www.bing.com/shop?q={query}&cc=CA",
+        "duckduckgo": "https://duckduckgo.com/?q={query}",
+        "youtube": "https://www.youtube.com/results?search_query={query}",
 
         # National Marketplaces
         "ebay": "https://www.ebay.ca/sch/i.html?_nkw={query}",
@@ -42,6 +45,18 @@ class VendorScraper:
         "google_shopping": {
             "name": "Google Shopping (Canada)",
             "logo": "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg"
+        },
+        "bing_shopping": {
+            "name": "Bing Shopping (Canada)",
+            "logo": "https://upload.wikimedia.org/wikipedia/commons/9/9c/Bing_Fluent_Logo.svg"
+        },
+        "duckduckgo": {
+            "name": "DuckDuckGo Search",
+            "logo": "https://upload.wikimedia.org/wikipedia/en/9/90/The_DuckDuckGo_Duck.png"
+        },
+        "youtube": {
+            "name": "YouTube (Repair Videos)",
+            "logo": "https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg"
         },
 
         # National Marketplaces

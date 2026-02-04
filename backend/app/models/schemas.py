@@ -57,8 +57,11 @@ class SearchRequest(BaseModel):
     query: str
     vendors: List[str] = [
         # Search Engines
+        "youtube",  # Repair videos first - most valuable for learning
         "google",
         "google_shopping",
+        "bing_shopping",
+        "duckduckgo",
         # National Marketplaces
         "ebay",
         "amazon",
