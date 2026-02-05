@@ -7,19 +7,29 @@ const SearchResults = ({ results, parsed }) => {
   }
 
   const handleOpenAll = () => {
-    // Open all vendor tabs at once using direct link clicks
-    // This bypasses pop-up blockers better than window.open
-    results.forEach((result) => {
+    // Ask user to allow pop-ups
+    const userConfirm = window.confirm(
+      `This will open ${results.length} tabs. Click OK, then allow pop-ups when your browser asks.`
+    );
+
+    if (!userConfirm) return;
+
+    // Try to open all tabs
+    let successCount = 0;
+    results.forEach((result, index) => {
       if (result.status === 'ready') {
-        const link = document.createElement('a');
-        link.href = result.url;
-        link.target = '_blank';
-        link.rel = 'noopener noreferrer';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        // Use window.open with immediate execution (no setTimeout)
+        const newTab = window.open(result.url, `_blank_${index}`);
+        if (newTab) successCount++;
       }
     });
+
+    // Alert user if some tabs were blocked
+    if (successCount < results.length) {
+      setTimeout(() => {
+        alert(`Only ${successCount} of ${results.length} tabs opened. Please allow pop-ups for this site in your browser settings and try again.`);
+      }, 500);
+    }
   };
 
   return (
