@@ -7,13 +7,17 @@ const SearchResults = ({ results, parsed }) => {
   }
 
   const handleOpenAll = () => {
-    // Open all vendor tabs at once
-    results.forEach((result, index) => {
+    // Open all vendor tabs at once using direct link clicks
+    // This bypasses pop-up blockers better than window.open
+    results.forEach((result) => {
       if (result.status === 'ready') {
-        // Add small delay between each to prevent browser blocking
-        setTimeout(() => {
-          openSingleTab(result.url);
-        }, index * 100);
+        const link = document.createElement('a');
+        link.href = result.url;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
       }
     });
   };
