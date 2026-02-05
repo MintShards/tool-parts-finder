@@ -1,4 +1,4 @@
-import { ExternalLink, CheckCircle, Clock } from 'lucide-react';
+import { ExternalLink, CheckCircle, Clock, Layers } from 'lucide-react';
 import { openSingleTab } from '../utils/tabManager';
 
 const SearchResults = ({ results, parsed }) => {
@@ -6,17 +6,39 @@ const SearchResults = ({ results, parsed }) => {
     return null;
   }
 
+  const handleOpenAll = () => {
+    // Open all vendor tabs at once
+    results.forEach((result, index) => {
+      if (result.status === 'ready') {
+        // Add small delay between each to prevent browser blocking
+        setTimeout(() => {
+          openSingleTab(result.url);
+        }, index * 100);
+      }
+    });
+  };
+
   return (
     <div className="mt-8">
-      <div className="mb-4">
-        <h2 className="text-xl font-semibold text-gray-900">Search Results</h2>
-        {parsed && (
-          <p className="text-sm text-gray-600 mt-1">
-            {parsed.brand && <span className="font-medium">{parsed.brand}</span>}
-            {parsed.model && <span className="ml-2">{parsed.model}</span>}
-            {parsed.part && <span className="ml-2 text-gray-700">→ {parsed.part}</span>}
-          </p>
-        )}
+      <div className="mb-4 flex items-center justify-between">
+        <div>
+          <h2 className="text-xl font-semibold text-gray-900">Search Results</h2>
+          {parsed && (
+            <p className="text-sm text-gray-600 mt-1">
+              {parsed.brand && <span className="font-medium">{parsed.brand}</span>}
+              {parsed.model && <span className="ml-2">{parsed.model}</span>}
+              {parsed.part && <span className="ml-2 text-gray-700">→ {parsed.part}</span>}
+            </p>
+          )}
+        </div>
+
+        <button
+          onClick={handleOpenAll}
+          className="flex items-center gap-2 px-6 py-3 bg-scarlet text-white font-medium rounded-lg hover:bg-scarlet-hover focus:outline-none focus:ring-2 focus:ring-scarlet focus:ring-offset-2 transition-all shadow-lg"
+        >
+          <Layers className="w-5 h-5" />
+          <span>Open All ({results.length})</span>
+        </button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
