@@ -1,0 +1,49 @@
+name: tool-parts-finder
+region: nyc
+
+# Backend API Service
+services:
+  - name: backend
+    github:
+      repo: MintShards/tool-parts-finder
+      branch: main
+      deploy_on_push: true
+    source_dir: /backend
+
+    build_command: pip install -r requirements.txt
+    run_command: uvicorn app.main:app --host 0.0.0.0 --port 8080
+
+    instance_count: 1
+    instance_size_slug: basic-xxs  # $5/month
+
+    http_port: 8080
+
+    envs:
+      - key: HOST
+        value: "0.0.0.0"
+      - key: PORT
+        value: "8080"
+      - key: CORS_ORIGINS
+        value: "${APP_URL}"  # Auto-configured by DO
+
+    health_check:
+      http_path: /
+
+# Frontend Static Site
+static_sites:
+  - name: frontend
+    github:
+      repo: MintShards/tool-parts-finder
+      branch: main
+      deploy_on_push: true
+    source_dir: /frontend
+
+    build_command: npm install && npm run build
+    output_dir: /dist
+
+    envs:
+      - key: VITE_API_URL
+        value: "${backend.PUBLIC_URL}"  # Auto-links to backend
+
+    routes:
+      - path: /
