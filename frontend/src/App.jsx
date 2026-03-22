@@ -5,6 +5,7 @@ import SearchResults from './components/SearchResults';
 import HistorySidebar from './components/HistorySidebar';
 import FavoritesList from './components/FavoritesList';
 import { searchParts } from './services/api';
+import { storage } from './services/storage';
 
 function App() {
   const [searchResults, setSearchResults] = useState(null);
@@ -23,6 +24,10 @@ function App() {
 
       setSearchResults(data.results);
       setParsedQuery(data.parsed);
+
+      // Save to localStorage history
+      const vendorNames = data.results.map(r => r.vendor);
+      storage.addToHistory(query, data.parsed, vendorNames);
 
     } catch (err) {
       console.error('Search failed:', err);

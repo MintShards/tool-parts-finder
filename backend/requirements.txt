@@ -5,10 +5,6 @@ pydantic==2.5.3
 pydantic-settings==2.1.0
 python-dotenv==1.0.0
 
-# Database
-motor==3.6.0
-pymongo==4.9.0
-
 # HTTP Client
 httpx==0.26.0
 

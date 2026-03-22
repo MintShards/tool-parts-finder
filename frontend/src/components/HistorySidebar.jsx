@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Clock, Trash2 } from 'lucide-react';
-import { getSearchHistory, clearSearchHistory } from '../services/api';
+import { storage } from '../services/storage';
 
 const HistorySidebar = ({ onSelectHistory }) => {
   const [history, setHistory] = useState([]);
@@ -10,11 +10,11 @@ const HistorySidebar = ({ onSelectHistory }) => {
     loadHistory();
   }, []);
 
-  const loadHistory = async () => {
+  const loadHistory = () => {
     try {
       setLoading(true);
-      const data = await getSearchHistory(20);
-      setHistory(data.history || []);
+      const data = storage.getHistory();
+      setHistory(data.slice(0, 20)); // Show last 20
     } catch (error) {
       console.error('Failed to load history:', error);
     } finally {
@@ -22,11 +22,11 @@ const HistorySidebar = ({ onSelectHistory }) => {
     }
   };
 
-  const handleClearHistory = async () => {
+  const handleClearHistory = () => {
     if (!window.confirm('Clear all search history?')) return;
 
     try {
-      await clearSearchHistory();
+      storage.clearHistory();
       setHistory([]);
     } catch (error) {
       console.error('Failed to clear history:', error);

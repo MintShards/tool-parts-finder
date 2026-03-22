@@ -25,9 +25,9 @@ AI-powered multi-vendor tool parts search for pneumatic tool repair businesses. 
 
 - **Backend**: FastAPI (Python 3.11+)
 - **Frontend**: React 18 + Vite + TailwindCSS
-- **Database**: MongoDB Atlas
+- **Storage**: Browser localStorage (no database needed!)
 - **AI**: OpenAI GPT-4 Vision (for future PDF parsing)
-- **Deployment**: DigitalOcean + Hostinger + MongoDB Atlas
+- **Deployment**: Any static host (Netlify, Vercel) + Railway/Render
 
 ## 🚀 Quick Start
 
@@ -35,8 +35,7 @@ AI-powered multi-vendor tool parts search for pneumatic tool repair businesses. 
 
 - Python 3.11+
 - Node.js 20+
-- MongoDB Atlas account (or local MongoDB)
-- OpenAI API key (for Phase 2+)
+- OpenAI API key (for Phase 2+ only)
 
 ### Option 1: Local Development (Recommended)
 
@@ -53,14 +52,7 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 # Install dependencies
 pip install -r requirements.txt
 
-# Create .env file
-cp .env.example .env
-
-# Edit .env with your MongoDB Atlas URI
-# MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/tool_parts_finder
-# OPENAI_API_KEY=sk-your-key-here  (for Phase 2+)
-
-# Run the backend
+# Run the backend (no .env needed for Phase 1!)
 uvicorn app.main:app --reload
 ```
 
@@ -84,12 +76,7 @@ Frontend will run at `http://localhost:5173`
 ### Option 2: Docker Compose
 
 ```bash
-# Create .env file in root directory
-echo "MONGODB_URI=your-mongodb-atlas-uri" > .env
-echo "DATABASE_NAME=tool_parts_finder" >> .env
-echo "OPENAI_API_KEY=your-openai-key" >> .env
-
-# Start all services
+# Start all services (no .env needed for Phase 1)
 docker-compose up -d
 
 # View logs
@@ -150,31 +137,39 @@ Gray Tones:      #F5F5F5, #D1D1D1, #4A4A4A
 - Card-based layouts
 - Smooth transitions
 
-## 🗄️ Database Schema
+## 💾 Data Storage
 
-### Collections
+**Phase 1 uses browser localStorage** - no database required!
 
-#### `search_history`
+### localStorage Keys
+
+#### `tool_parts_history` (last 50 searches)
 ```javascript
 {
+  id: "1234567890",
   query: "Ingersoll Rand 2135 trigger valve",
   parsed: { brand, model, part },
-  timestamp: ISODate,
-  results_opened: ["ebay", "amazon", ...],
-  marked_ordered: "ebay"
+  timestamp: "2025-03-22T10:30:00Z",
+  results_opened: ["eBay Canada", "Amazon Canada", ...]
 }
 ```
 
-#### `favorites`
+#### `tool_parts_favorites`
 ```javascript
 {
+  id: "1234567890",
   part_description: "IR 2135 Trigger Valve",
   search_query: "Ingersoll Rand 2135 trigger valve",
   times_ordered: 15,
-  last_ordered: ISODate,
-  preferred_vendor: "ebay"
+  last_ordered: "2025-03-22T10:30:00Z"
 }
 ```
+
+**Benefits**:
+- ✅ Zero infrastructure setup
+- ✅ Works offline after first load
+- ✅ Instant performance (no network calls)
+- ✅ Privacy-first (data never leaves browser)
 
 ## 🔧 API Endpoints
 
@@ -187,15 +182,9 @@ Gray Tones:      #F5F5F5, #D1D1D1, #4A4A4A
   }
   ```
 
-### History
-- `GET /api/history?limit=50` - Get search history
-- `DELETE /api/history` - Clear all history
-
-### Favorites
-- `GET /api/favorites` - Get all favorites
-- `POST /api/favorites` - Add new favorite
-- `DELETE /api/favorites/{id}` - Remove favorite
-- `POST /api/favorites/{id}/increment-orders` - Increment order count
+### History & Favorites
+*Stored in browser localStorage - no API endpoints needed!*
+- See `frontend/src/services/storage.js` for implementation
 
 ## 🌐 Supported Vendors
 
@@ -319,14 +308,11 @@ npm test
 
 ### Backend won't start
 ```bash
-# Check MongoDB connection
-ping your-mongodb-atlas-cluster.mongodb.net
-
-# Verify .env file
-cat backend/.env
-
 # Check Python version
 python --version  # Should be 3.11+
+
+# Check backend is running
+curl http://localhost:8000/health
 ```
 
 ### Frontend won't connect to backend
@@ -344,42 +330,31 @@ curl http://localhost:8000/health
 
 ## 🌐 Deployment
 
-### Backend (DigitalOcean Droplet)
+### Backend (Railway/Render Free Tier)
 
 ```bash
-# SSH into droplet
-ssh root@your-droplet-ip
+# Deploy to Railway
+railway up
 
-# Clone repository
-git clone https://github.com/yourusername/tool-parts-finder.git
-cd tool-parts-finder/backend
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Set environment variables
-export MONGODB_URI="your-atlas-uri"
-export OPENAI_API_KEY="your-key"
-
-# Run with Gunicorn
-gunicorn app.main:app -w 4 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000
+# Or deploy to Render
+# Connect GitHub repo, Render auto-deploys
 ```
 
-### Frontend (Hostinger)
+### Frontend (Netlify/Vercel Free Tier)
 
 ```bash
 # Build frontend
 cd frontend
 npm run build
 
-# Upload dist/ folder to Hostinger via FTP/SFTP
-# Point domain to dist/index.html
+# Deploy to Netlify
+netlify deploy --prod
+
+# Or deploy to Vercel
+vercel --prod
 ```
 
-### MongoDB Atlas
-- Already configured
-- Free tier (512MB) sufficient for MVP
-- Connection string in `.env`
+**No database needed!** Data stored in user's browser localStorage.
 
 ## 📝 License
 

@@ -1,27 +1,14 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from contextlib import asynccontextmanager
 
 from app.config import settings
-from app.database.mongodb import connect_to_mongodb, close_mongodb_connection
-from app.routers import search, history, favorites
-
-
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    """Startup and shutdown events."""
-    # Startup
-    await connect_to_mongodb()
-    yield
-    # Shutdown
-    await close_mongodb_connection()
+from app.routers import search
 
 
 app = FastAPI(
     title="Tool Parts Finder API",
     description="AI-powered multi-vendor tool parts search for pneumatic tool repair",
-    version="1.0.0",
-    lifespan=lifespan
+    version="1.0.0"
 )
 
 # CORS middleware
@@ -45,8 +32,6 @@ app.add_middleware(
 
 # Include routers
 app.include_router(search.router)
-app.include_router(history.router)
-app.include_router(favorites.router)
 
 
 @app.get("/")

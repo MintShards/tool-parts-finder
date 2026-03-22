@@ -1,16 +1,11 @@
 from fastapi import APIRouter, HTTPException
-from typing import List
-from datetime import datetime
 
 from app.models.schemas import (
     SearchRequest,
-    SearchResponse,
-    ParsedQuery,
-    SearchHistory
+    SearchResponse
 )
 from app.services.parser import QueryParser
 from app.services.scraper import VendorScraper
-from app.database.mongodb import get_database
 
 router = APIRouter(prefix="/api/search", tags=["search"])
 
@@ -21,6 +16,7 @@ async def search_parts(request: SearchRequest):
     Search for tool parts across multiple vendors.
 
     Returns instant URLs for vendor search results.
+    Note: History is now stored in frontend localStorage.
     """
     try:
         # Parse the query
@@ -31,17 +27,6 @@ async def search_parts(request: SearchRequest):
 
         # Get search results from all vendors
         results = await VendorScraper.search_all_vendors(search_query, request.vendors)
-
-        # Save to search history
-        db = get_database()
-        history_entry = SearchHistory(
-            query=request.query,
-            parsed=parsed,
-            timestamp=datetime.utcnow(),
-            results_opened=[r.vendor for r in results]
-        )
-
-        await db.search_history.insert_one(history_entry.model_dump(by_alias=True, exclude={"id"}))
 
         return SearchResponse(
             parsed=parsed,
