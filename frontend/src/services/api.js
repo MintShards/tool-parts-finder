@@ -19,7 +19,7 @@ export const searchParts = async (query, vendors = null) => {
     ...(vendors && { vendors }),
   };
 
-  const response = await api.post('/api/search', requestData);
+  const response = await api.post('/search', requestData);
   return response.data;
 };
 
